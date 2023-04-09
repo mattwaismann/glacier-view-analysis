@@ -1,0 +1,9 @@
+src/earth_engine/data/*
+src/glims/data/*
+src/image_quality_classifier/data/*
+src/image_quality_classifier/saved_models/*
+src/segmentation/gifs/*
+src/segmentation/saved_models/*
+src/segmentation/surface_area_time_series/*
+src/segmentation/tmp/*
+src/segmentation/training/data/*
