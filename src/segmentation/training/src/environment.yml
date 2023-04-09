@@ -1,0 +1,28 @@
+name: glacier_segmentation
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - spyder=4
+  - rasterio
+  - fiona
+  - pandas
+  - numpy
+  - scipy
+  - scikit-learn
+  - matplotlib
+  - python=3.8
+  - tensorflow-gpu
+  - jupyter
+  - opencv
+  - qgrid
+  - pillow
+  - tifffile
+  - geopandas
+  - array2gif
+  - moviepy
+  - pykrige
+  - scikit-image
+  - earthengine-api
+  - geemap
+prefix: C:\Users\mattw\Miniconda3\envs\glacier_segmentation
