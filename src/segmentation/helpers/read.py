@@ -35,28 +35,29 @@ def reproject_raster(infp, outfp, dst_crs='EPSG:4326'):
                     dst_nodata = 0)
 
 def get_rasters(dir_path_rasters):
-    rasters = []
-    file_names = []
+    rasters = {}
     image_file_names = next(os.walk(dir_path_rasters))[2]
+    image_file_names = [file_name for file_name in image_file_names if file_name.endswith('.tif')]
     for tif in image_file_names:
-        if tif == ".DS_Store": continue
         with rasterio.open(os.path.join(dir_path_rasters,tif)) as src:
             raster = src.read()
             raster[raster == -inf] = 0
             raster[raster < 0 ] = 0
             raster = np.rollaxis(raster,0,3)
-            rasters.append(raster)
-            file_names.append(tif)
-    return (rasters,file_names)
+            rasters[tif] = raster
+    return rasters
 
 def get_dem(file_path_dem):
+    file_name = file_path_dem.split("/")[-1]
+    dem = {}
     with rasterio.open(file_path_dem) as src:
-        dem = src.read()
-        dem = dem[[0],:,:]
-        dem[dem == -inf] = 0
-        dem[dem < 0 ] = 0
-        dem = np.rollaxis(dem,0,3)
-    return dem            
+        dem_tmp = src.read()
+        dem_tmp = dem_tmp[[0],:,:]
+        dem_tmp[dem_tmp == -inf] = 0
+        dem_tmp[dem_tmp < 0 ] = 0
+        dem_tmp = np.rollaxis(dem_tmp,0,3)
+        dem[file_name] = dem_tmp
+    return dem
 
 def get_shapevalue_df():
     return gpd.read_file('polygons/joined.shp')
