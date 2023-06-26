@@ -1,3 +1,4 @@
+.ipynb_checkpoints
 src/earth_engine/data/*
 src/glims/data/*
 src/image_quality_classifier/data/*
