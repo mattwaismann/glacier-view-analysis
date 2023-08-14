@@ -1,7 +1,5 @@
 # Glacier Image Segmentation using ResNet-50
 
-![Glacier Image Segmentation](images/glacier_segmentation.png)
-
 ## Table of Contents
 
 - [Introduction](#introduction)
@@ -16,7 +14,7 @@
 
 ## Introduction
 
-This repository contains a machine learning model for performing image segmentation on glacier images using the ResNet-50 architecture and PyTorch framework. Image segmentation is the process of classifying each pixel in an image into a specific class, which is essential for tasks like understanding glacier boundaries and ice extent.
+This repository contains a machine learning model for performing image segmentation on glacier images using the pre-trained ResNet-50 model with a U-Net architecture and PyTorch framework. Image segmentation is the process of classifying each pixel in an image into a specific class, which is essential for tasks like understanding glacier boundaries and ice extent.
 
 The model leverages the power of the ResNet-50 deep neural network architecture, which has demonstrated exceptional performance in various computer vision tasks, and applies it to the specific problem of glacier image segmentation.
 
@@ -37,13 +35,13 @@ Before you begin, ensure you have the following prerequisites:
 1. Clone this repository to your local machine:
 
 ```bash
-git clone https://github.com/your-username/glacier-image-segmentation.git
+git clone https://github.com/mattwaismann/glacier-view-analysis.git
 ```
 
 2. Navigate to the project directory:
 
 ```bash
-cd glacier-image-segmentation
+cd glacier-view-analysis
 ```
 
 3. Install the required Python packages:
@@ -56,43 +54,49 @@ pip install -r requirements.txt
 
 To use the glacier image segmentation model, follow these steps:
 
-1. Prepare your glacier image dataset. Refer to the [Dataset](#dataset) section for more details.
+1. Download the training data and create a training_data folder with sub-folders named images and masks.
 
-2. Train the model using the provided script:
+2. Navigato to the training directory:
 
-```bash
-python train.py
-```
+   ```bash
+   cd src/segmentation/training/src
+   ```
 
-3. Evaluate the model using the test set:
+3. Train the model using the provided script:
 
-```bash
-python evaluate.py
-```
+    ```bash
+    python train.py
+    ```
+4.  Navigato to the inference directory:
 
-4. Perform inference on new glacier images:
+    ```bash
+    cd src/segmentation/inference/src
+    ```
 
-```bash
-python predict.py --image_path path/to/your/image.jpg
-```
+6. Perform inference on new glacier images:
+
+   ```bash
+    python predict.py
+    ```
+
+   Sample output
+   
+   ![Glacier Image Segmentation](out.png)
+
+
 
 ## Model Architecture
 
-The glacier image segmentation model is based on the ResNet-50 architecture. The model takes an input image and produces a segmentation mask, where each pixel is classified as glacier or non-glacier. The ResNet-50 backbone is augmented with additional layers for semantic segmentation.
+The glacier image segmentation model is based on the ResNet-50 architecture. The model takes an input image of 128x128 pixels with 7 bands, and produces a segmentation mask, where each pixel is classified as glacier or non-glacier. The ResNet-50 backbone is augmented with additional layers for semantic segmentation.
 
 ## Dataset
 
 The dataset used for training and evaluation should include glacier images along with corresponding pixel-level masks indicating glacier boundaries. Organize your dataset in the following directory structure:
 
 ```
-dataset/
-    ├── train/
-    |   ├── images/
-    |   └── masks/
-    ├── test/
-    |   ├── images/
-    |   └── masks/
-    └── ...
+    training_data/
+    ├── images/
+    └── masks/
 ```
 
 ## Contributing
@@ -101,10 +105,9 @@ Contributions to this repository are encouraged! If you discover issues or have 
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
+This project is licensed under ...
 ---
 
 **Disclaimer:** This model and repository are designed for educational and research purposes. The performance of the image segmentation model may vary depending on your dataset and specific use cases. It is recommended to thoroughly evaluate the model's results before making critical decisions based on its output.
 
-For inquiries, contact [your-email@example.com](mailto:your-email@example.com).
+For inquiries, contact ...
