@@ -22,16 +22,26 @@ import random
 import torchvision.models as models
 from torch.nn.functional import interpolate
 from datetime import datetime
+import argparse
 
 # Check if GPU is available for training
 device = 'cuda' if torch.cuda.is_available() else 'cpu'
 device = torch.device(device)
+
+# Processing arguments
+parser = argparse.ArgumentParser("simple_example")
+parser.add_argument("--epochs", help="Number of training epochs. Default value 10", type=int, default=10)
+parser.add_argument("--lr", help="Learning Rate. Default value 0.00001", type=float, default=0.00001)
+parser.add_argument("--decay", help="Weight Decay for optimizer.", type=float, default=0.00001)
+parser.add_argument("--batch", help="Batch size", type=int, default=16)
+args = parser.parse_args()
+
 # Hyperparameters
 
-LEARNING_RATE = 0.00001
-WEIGHT_DECAY = 1e-5  # For regularization in Adam Optimizer
+LEARNING_RATE = args.lr
+WEIGHT_DECAY = args.decay  # For regularization in Adam Optimizer
 UNFREEZE_WEIGHTS = False  # If resnet weights need to be frozen or not
-EPOCHS = 100
+EPOCHS = args.epochs
 EPOCH_FREEZE = 0  # After how many epochs to unfreeze encoder
 PROB_THRESHOLD = 0.5  # Threshold at which glacier is classified
 MAKE_CSV = False  # If training data csv is needed or not
@@ -40,7 +50,7 @@ TRANSFORMS = True  # Augment training data with transformations (rotation etc)
 LOSS = 'ce'  # Type of loss function Cross Entropy 'ce', Mean Sq Error 'mse'
 SMOOTH_FACTOR = 1
 SMOOTH_FACTOR2 = 0.00001  # Added while calculatin NDSI & NDWI to avoid invalid values
-BATCH_SIZE = 16  # Number of images per training batch
+BATCH_SIZE = args.batch  # Number of images per training batch
 SHUFFLE_DATASET = False  # Shuffle dataset while training and testing
 NORMALIZE = True
 
