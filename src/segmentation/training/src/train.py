@@ -581,7 +581,7 @@ for IMG in range(16):
     #     print(f'{str(IMG+10000)}.png')
     plt.title("Predicted mask")
     plt.savefig(new_folder + f'results/{str(IMG + 1000)}.png')
-    plt.show()
+    # plt.show()
 
 counter = open(exp_folder + "thecounter.data", "w")
 counter.write(str(count))
