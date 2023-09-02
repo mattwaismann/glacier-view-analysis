@@ -572,7 +572,7 @@ if not os.path.exists(new_folder + 'results/'):
     os.mkdir(new_folder + 'results/')
 
 plt.figure(2)
-for IMG in range(16):
+for IMG in range(BATCH_SIZE):
     plt.subplot(1, 2, 1)
     plt.title("True mask")
     plt.imshow(segs[IMG, :, :, :].squeeze(0))
