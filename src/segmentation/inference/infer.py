@@ -46,20 +46,20 @@ dim = (128, 128)
 images = read.get_rasters(glacier_dir)
 
 sample_image_key = list(images.keys())[0]
-print(f"Before preprocessing single image shape: {images[sample_image_key].shape}")
+# print(f"Before preprocessing single image shape: {images[sample_image_key].shape}")
 images = preprocess.get_common_bands(images, common_bands)
 images = preprocess.normalize_rasters(images)
 images = preprocess.resize_rasters(images, dim)
-print(f"After preprocessing single image shape: {images[sample_image_key].shape}")
+# print(f"After preprocessing single image shape: {images[sample_image_key].shape}")
 # read and preprocess dems
 
 dem = read.get_dem(dem_path)
 
 dem_key = list(dem.keys())[0]
-print(f"Before preprocessing single dem shape: {dem[dem_key].shape}")
+# print(f"Before preprocessing single dem shape: {dem[dem_key].shape}")
 dem = preprocess.resize_rasters(dem, dim)
 dem = preprocess.normalize_rasters(dem)
-print(f"After preprocessing single dem shape: {dem[dem_key].shape}")
+# print(f"After preprocessing single dem shape: {dem[dem_key].shape}")
 dem.keys()
 combined_images_and_dems = [np.concatenate((images[file_name], dem[dem_key]), axis=2) for file_name in
                             sorted(images.keys())]
