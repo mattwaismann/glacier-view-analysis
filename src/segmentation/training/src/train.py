@@ -564,8 +564,8 @@ plt.title("Dice Score Distribution")
 plt.savefig(new_folder + 'dice_hist.png')
 
 torch.save(torch_model, new_folder + 'model')
-inference_path = Path(__file__).parent.parent.parent/"inference/"
-torch.save(torch_model, inference_path + 'model')
+inference_path = Path(__file__).parent.parent.parent/"inference"/"model"
+torch.save(torch_model, inference_path)
 
 imgs, segs = next(iter(test_dataloader))  #
 outputs = torch_model.forward(imgs.to(device))

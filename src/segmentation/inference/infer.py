@@ -2,7 +2,7 @@ from pathlib import Path
 
 print("Haha")
 x = Path(__file__).parent.parent
-x = x/"lol"
+x = x/"lol"/"mo"
 print(x)
 """
 import sys
