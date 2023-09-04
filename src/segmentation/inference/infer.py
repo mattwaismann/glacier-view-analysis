@@ -1,10 +1,3 @@
-from pathlib import Path
-
-print("Haha")
-x = Path(__file__).parent.parent
-x = x/"lol"/"mo"
-print(x)
-"""
 import sys
 import os
 
@@ -245,4 +238,3 @@ plt.title("Estimated Surface Area (no units)")
 # plt.savefig(os.path.join(ts_output_dir, f"{glims_id}.png"))
 
 plt.show()
-"""
