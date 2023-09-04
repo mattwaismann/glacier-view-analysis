@@ -566,7 +566,7 @@ plt.savefig(new_folder + 'dice_hist.png')
 torch.save(torch_model, new_folder + 'model')
 inference_path = Path(__file__).parent.parent.parent
 print(inference_path)
-print(str(inference_path))+'/inference/'
+print(str(inference_path)+'/inference/')
 # torch.save(torch_model, inference_path + 'model')
 
 imgs, segs = next(iter(test_dataloader))  #
