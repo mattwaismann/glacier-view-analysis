@@ -1,7 +1,9 @@
 from pathlib import Path
 
 print("Haha")
-print(Path(__file__).parent.parent)
+x = Path(__file__).parent.parent
+x = x/"lol"
+print(x)
 """
 import sys
 import os
