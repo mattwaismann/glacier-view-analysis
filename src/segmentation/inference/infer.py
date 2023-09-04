@@ -77,50 +77,83 @@ import torch
 from torch.nn.functional import interpolate
 
 
-# from torchvision.models import resnet50, ResNet50_Weights
+class conv_block(nn.Module):
+    def __init__(self, in_c, out_c):
+        super().__init__()
+        self.conv1 = nn.Conv2d(in_c, out_c, kernel_size=3, padding=1)
+        self.bn1 = nn.BatchNorm2d(out_c)
+        self.conv2 = nn.Conv2d(out_c, out_c, kernel_size=3, padding=1)
+        self.bn2 = nn.BatchNorm2d(out_c)
+        self.relu = nn.ReLU()
 
+    def forward(self, inputs):
+        x = self.conv1(inputs)
+        x = self.bn1(x)
+        x = self.relu(x)
+        x = self.conv2(x)
+        x = self.bn2(x)
+        x = self.relu(x)
+        return x
 
 class UNet(nn.Module):
     def __init__(self, n_class, freeze_encoder=True):
+
+        # Number of Classes
         self.n_class = n_class
+        # Should pre-trained encoder weights be trained or not
         self.freeze_encoder = freeze_encoder
         super(UNet, self).__init__()
 
+        # Loading resnet-50 pre-trained model
         resnet = models.resnet50(weights='ResNet50_Weights.DEFAULT')
 
+        # Freeze encoder weights if set to True
         if self.freeze_encoder:
-            for param in resnet.parameters():
-                param.requires_grad = False
+            for i, param in enumerate(resnet.parameters()):
+                if i == 0:
+                    pass
+                else:
+                    param.requires_grad = False
         modules = list(resnet.children())[:-2]
         self.resnet = nn.Sequential(*modules)
+
+        # Replacing encoder's first layer to allow 10 channels input intead of just 3
         self.resnet[0] = nn.Conv2d(10, 64, kernel_size=7, stride=2, padding=3, bias=False)
 
         self.relu = nn.ReLU(inplace=True)
+
+        # Defining decoder layer layers
         self.deconv1 = nn.ConvTranspose2d(2048, 1024, kernel_size=3, stride=2, padding=1, dilation=1, output_padding=1)
         self.bn1 = nn.BatchNorm2d(1024)
-        self.deconv2 = nn.ConvTranspose2d(2048, 512, kernel_size=3, stride=2, padding=1, dilation=1,
+        self.c1 = conv_block(2048, 1024).to(device)
+
+        self.deconv2 = nn.ConvTranspose2d(1024, 512, kernel_size=3, stride=2, padding=1, dilation=1,
                                           output_padding=1)
         self.bn2 = nn.BatchNorm2d(512)
+        self.c2 = conv_block(1024, 512).to(device)
 
-        self.deconv3 = nn.ConvTranspose2d(1024, 256, kernel_size=3, stride=2, padding=1, dilation=1,
+        self.deconv3 = nn.ConvTranspose2d(512, 256, kernel_size=3, stride=2, padding=1, dilation=1,
                                           output_padding=1)
         self.bn3 = nn.BatchNorm2d(256)
-        self.deconv4 = nn.ConvTranspose2d(512, 64, kernel_size=3, stride=2, padding=1, dilation=1,
+        self.c3 = conv_block(512, 256).to(device)
+
+        self.deconv4 = nn.ConvTranspose2d(256, 64, kernel_size=3, stride=2, padding=1, dilation=1,
                                           output_padding=1)
         self.bn4 = nn.BatchNorm2d(64)
-        self.deconv5 = nn.ConvTranspose2d(128, 64, kernel_size=3, stride=2, padding=1, dilation=1, output_padding=1)
-        self.bn5 = nn.BatchNorm2d(64)
-        self.deconv6 = nn.ConvTranspose2d(64, 32, kernel_size=3, stride=2, padding=1, dilation=1, output_padding=1)
-        self.bn6 = nn.BatchNorm2d(32)
-        self.deconv7 = nn.ConvTranspose2d(32, 16, kernel_size=3, stride=2, padding=1, dilation=1, output_padding=1)
+        self.c4 = conv_block(128, 64).to(device)
+
+        self.deconv5 = nn.ConvTranspose2d(64, 32, kernel_size=3, stride=2, padding=1, dilation=1, output_padding=1)
+        self.bn5 = nn.BatchNorm2d(32)
+        self.c5 = conv_block(42, 16).to(device)
+        self.deconv6 = nn.ConvTranspose2d(32, 16, kernel_size=3, stride=2, padding=1, dilation=1, output_padding=1)
+        self.bn6 = nn.BatchNorm2d(16)
+        self.deconv7 = nn.ConvTranspose2d(16, 16, kernel_size=3, stride=2, padding=1, dilation=1, output_padding=1)
         self.bn7 = nn.BatchNorm2d(16)
         self.deconv8 = nn.ConvTranspose2d(16, 4, kernel_size=3, stride=2, padding=1, dilation=1, output_padding=1)
         self.bn8 = nn.BatchNorm2d(4)
         self.c8 = nn.Conv2d(4, 4, 6, stride=8, padding=0)
-
         self.dropout = nn.Dropout(p=0.2)
-        self.classifier = nn.Conv2d(4, self.n_class, kernel_size=1)
-        # self.classifier = nn.Conv2d(4, 1, kernel_size=1)
+        self.classifier = nn.Conv2d(16, self.n_class, kernel_size=1)
         self.softmax = torch.nn.Softmax(dim=1)
 
     def forward(self, images):
@@ -135,26 +168,28 @@ class UNet(nn.Module):
 
         y1 = self.bn1(self.relu(self.deconv1(out)))
         y1 = torch.cat([y1, x6], dim=1)
+        y1 = self.c1(y1)
 
         y2 = self.bn2(self.relu(self.deconv2(y1)))
         y2 = torch.cat([y2, x5], dim=1)
+        y2 = self.c2(y2)
 
         y3 = self.bn3(self.relu(self.deconv3(y2)))
         y3 = torch.cat([y3, x4], dim=1)
+        y3 = self.c3(y3)
 
         y4 = self.bn4(self.relu(self.deconv4(y3)))
         y4 = torch.cat([y4, x2], dim=1)
+        y4 = self.c4(y4)
 
         y5 = self.bn5(self.relu(self.deconv5(y4)))
-        y6 = self.bn6(self.relu(self.deconv6(y5)))
-        y7 = self.bn7(self.relu(self.deconv7(y6)))
-        y8 = self.bn8(self.relu(self.deconv8(y7)))
-        y9 = self.c8(y8)
+        y5 = torch.cat([y5, images], dim=1)
+        y5 = self.c5(y5)
 
-        # score = self.softmax(self.classifier(y9))
-        score = self.classifier(y9)
-        # score = y8
+        score = self.classifier(y5)
+
         return score
+
 
 
 torch_model = torch.load('model').eval()
