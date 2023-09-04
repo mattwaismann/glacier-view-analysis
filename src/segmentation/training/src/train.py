@@ -181,11 +181,11 @@ train_dataloader = DataLoader(train_dataset, batch_size=BATCH_SIZE, shuffle=SHUF
 test_dataloader = DataLoader(test_dataset, batch_size=BATCH_SIZE, shuffle=SHUFFLE_DATASET)
 # Display loaded bands
 imgs, lbls = next(iter(test_dataloader))
-plt.imshow(imgs[0][8])
-plt.imshow(imgs[0][9])
-plt.imshow(imgs[0][1])
-# Display loaded masks
-plt.imshow(lbls[0][0])
+# plt.imshow(imgs[0][8])
+# plt.imshow(imgs[0][9])
+# plt.imshow(imgs[0][1])
+# # Display loaded masks
+# plt.imshow(lbls[0][0])
 
 
 # Convolutional Model Architecture
