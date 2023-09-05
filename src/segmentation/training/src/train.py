@@ -30,7 +30,7 @@ device = 'cuda' if torch.cuda.is_available() else 'cpu'
 device = torch.device(device)
 
 # Processing arguments
-parser = argparse.ArgumentParser("simple_example")
+parser = argparse.ArgumentParser("training_args")
 parser.add_argument("--epochs", help="Number of training epochs. Default value 10", type=int, default=10)
 parser.add_argument("--lr", help="Learning Rate. Default value 0.00001", type=float, default=0.00001)
 parser.add_argument("--decay", help="Weight Decay for optimizer.", type=float, default=0.00001)

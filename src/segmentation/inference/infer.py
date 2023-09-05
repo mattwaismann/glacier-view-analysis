@@ -1,6 +1,7 @@
 import sys
 import os
 from pathlib import Path
+import argparse
 
 # sys.path.insert(0,
 #                 os.path.join(os.path.expanduser("~"), "PycharmProjects", "glacier-view-analysis", "src", "segmentation",
@@ -21,12 +22,18 @@ import cv2
 import imageio.v2 as imageio
 import torch
 
+# Processing arguments
+parser = argparse.ArgumentParser("glims_id_parsing")
+parser.add_argument("--glimsid", help="Enter GLIMS ID of glacier", type=str, default="G006628E45300N")
+
+args = parser.parse_args()
+
 # define inputs
 # glims_id = 'G006628E45300N'
 # glims_id = 'G006819E45785N' #lex blanche
 # glims_id = 'G007026E45991N'  # trient
 # glims_id = 'G086519E27919N'
-glims_id = 'G006628E45300N'
+glims_id = args.glimsid
 PROB_THRESH = 0.5
 
 data_label = "full_time_series"
