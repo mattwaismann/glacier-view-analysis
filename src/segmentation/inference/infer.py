@@ -247,6 +247,12 @@ predictions = predictions.detach().cpu().numpy()
 gif_creation_dir = Path(__file__).parent.parent.parent/ "segmentation"/"tmp"/"gif_creation"
 gif_output_dir = Path(__file__).parent.parent.parent/ "segmentation"/"gifs"
 
+if not os.path.exists(gif_creation_dir):
+    os.makedirs(gif_creation_dir)
+
+if not os.path.exists(gif_output_dir):
+    os.makedirs(gif_output_dir)
+
 for f in os.listdir(gif_creation_dir):
     os.remove(os.path.join(gif_creation_dir, f))
 
