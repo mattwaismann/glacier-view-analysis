@@ -1,9 +1,10 @@
 import sys
 import os
+from pathlib import Path
 
-sys.path.insert(0,
-                os.path.join(os.path.expanduser("~"), "PycharmProjects", "glacier-view-analysis", "src", "segmentation",
-                             "helpers"))
+# sys.path.insert(0,
+#                 os.path.join(os.path.expanduser("~"), "PycharmProjects", "glacier-view-analysis", "src", "segmentation",
+#                              "helpers"))
 
 import tensorflow as tf
 from tensorflow import keras
@@ -23,17 +24,20 @@ import torch
 # define inputs
 # glims_id = 'G006628E45300N'
 # glims_id = 'G006819E45785N' #lex blanche
-glims_id = 'G007026E45991N'  # trient
+# glims_id = 'G007026E45991N'  # trient
 # glims_id = 'G086519E27919N'
-PROB_THRESH = 0.3
+glims_id = 'G006628E45300N'
+PROB_THRESH = 0.5
 
 data_label = "full_time_series"
-ee_data_dir = os.path.join(os.path.expanduser("~"),
-                           "PycharmProjects", "glacier-view-analysis", "src", "earth_engine", "data", "ee_landing_zone",
-                           data_label)
-dem_data_dir = os.path.join(os.path.expanduser("~"),
-                            "PycharmProjects", "glacier-view-analysis", "src", "earth_engine", "data",
-                            "ee_landing_zone", "full_time_series")
+# ee_data_dir = os.path.join(os.path.expanduser("~"),
+#                            "PycharmProjects", "glacier-view-analysis", "src", "earth_engine", "data", "ee_landing_zone",
+#                            data_label)
+ee_data_dir = Path(__file__).parent.parent.parent/"earth_engine"/"data"/"ee_landing_zone"/data_label
+# dem_data_dir = os.path.join(os.path.expanduser("~"),
+#                             "PycharmProjects", "glacier-view-analysis", "src", "earth_engine", "data",
+#                             "ee_landing_zone", "full_time_series")
+dem_data_dir = Path(__file__).parent.parent.parent/"earth_engine"/"data"/"ee_landing_zone"/data_label
 landsat_dir = os.path.join(ee_data_dir, "landsat")
 dem_dir = os.path.join(dem_data_dir, "dems")
 
@@ -236,10 +240,12 @@ for i in prediction_dataloader:
 predictions = torch.cat(predictions, dim=0)
 predictions = predictions.detach().cpu().numpy()
 # create GIF
-gif_creation_dir = os.path.join(os.path.expanduser("~"), "PycharmProjects", "glacier-view-analysis", "src",
-                                "segmentation", "tmp", "gif_creation")
-gif_output_dir = os.path.join(os.path.expanduser("~"), "PycharmProjects", "glacier-view-analysis", "src",
-                              "segmentation", "gifs")
+# gif_creation_dir = os.path.join(os.path.expanduser("~"), "PycharmProjects", "glacier-view-analysis", "src",
+#                                 "segmentation", "tmp", "gif_creation")
+# gif_output_dir = os.path.join(os.path.expanduser("~"), "PycharmProjects", "glacier-view-analysis", "src",
+#                               "segmentation", "gifs")
+gif_creation_dir = Path(__file__).parent.parent.parent/ "segmentation"/"tmp"/"gif_creation"
+gif_output_dir = Path(__file__).parent.parent.parent/ "segmentation"/"gifs"
 
 for f in os.listdir(gif_creation_dir):
     os.remove(os.path.join(gif_creation_dir, f))
@@ -263,13 +269,14 @@ with imageio.get_writer(os.path.join(gif_output_dir, f"{glims_id}.gif"), mode='I
 
 # generate and save surface area time_series
 
-ts_output_dir = os.path.join(os.path.expanduser("~"), "PycharmProjects", "glacier-view-analysis", "src", "segmentation",
-                             "surface_area_time_series")
+# ts_output_dir = os.path.join(os.path.expanduser("~"), "PycharmProjects", "glacier-view-analysis", "src", "segmentation",
+                             # "surface_area_time_series")
+ts_output_dir = Path(__file__).parent.parent.parent/ "segmentation"/"gifs"
 total_areas = []
 for prediction in predictions:
     total_areas.append(np.sqrt(np.sum(prediction)))
 plt.plot(image_dates, total_areas)
 plt.title("Estimated Surface Area (no units)")
-# plt.savefig(os.path.join(ts_output_dir, f"{glims_id}.png"))
+plt.savefig(os.path.join(ts_output_dir, f"{glims_id}.png"))
 
-plt.show()
+# plt.show()
