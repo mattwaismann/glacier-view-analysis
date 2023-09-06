@@ -34,7 +34,7 @@ parser = argparse.ArgumentParser("training_args")
 parser.add_argument("--epochs", help="Number of training epochs. Default value 10", type=int, default=10)
 parser.add_argument("--lr", help="Learning Rate. Default value 0.00001", type=float, default=0.00001)
 parser.add_argument("--decay", help="Weight Decay for optimizer.", type=float, default=0.00001)
-parser.add_argument("--batch", help="Batch size", type=int, default=16)
+parser.add_argument("--batch", help="Batch size", type=int, default=2)
 args = parser.parse_args()
 
 # Hyperparameters
