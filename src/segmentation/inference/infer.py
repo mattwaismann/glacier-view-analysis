@@ -2,11 +2,6 @@ import sys
 import os
 from pathlib import Path
 import argparse
-
-# sys.path.insert(0,
-#                 os.path.join(os.path.expanduser("~"), "PycharmProjects", "glacier-view-analysis", "src", "segmentation",
-#                              "helpers"))
-
 import tensorflow as tf
 from tensorflow import keras
 import pandas as pd
@@ -35,15 +30,8 @@ args = parser.parse_args()
 # glims_id = 'G086519E27919N'
 glims_id = args.glimsid
 PROB_THRESH = 0.5
-
 data_label = "full_time_series"
-# ee_data_dir = os.path.join(os.path.expanduser("~"),
-#                            "PycharmProjects", "glacier-view-analysis", "src", "earth_engine", "data", "ee_landing_zone",
-#                            data_label)
 ee_data_dir = Path(__file__).parent.parent.parent/"earth_engine"/"data"/"ee_landing_zone"/data_label
-# dem_data_dir = os.path.join(os.path.expanduser("~"),
-#                             "PycharmProjects", "glacier-view-analysis", "src", "earth_engine", "data",
-#                             "ee_landing_zone", "full_time_series")
 dem_data_dir = Path(__file__).parent.parent.parent/"earth_engine"/"data"/"ee_landing_zone"/data_label
 landsat_dir = os.path.join(ee_data_dir, "landsat")
 dem_dir = os.path.join(dem_data_dir, "dems")

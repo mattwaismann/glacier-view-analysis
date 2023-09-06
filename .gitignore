@@ -8,3 +8,4 @@ src/segmentation/saved_models/*
 src/segmentation/surface_area_time_series/*
 src/segmentation/tmp/*
 src/segmentation/training/data/*
+src/segmentation/inference/model
