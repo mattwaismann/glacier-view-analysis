@@ -11,9 +11,9 @@ import tensorflow as tf
 from tensorflow import keras
 import pandas as pd
 import numpy as np
-import read
-import preprocess
-import landsat_bands
+from helpers import read
+from helpers import preprocess
+from helpers import landsat_bands
 import matplotlib.pyplot as plt
 import rasterio
 from skimage.filters import gaussian
