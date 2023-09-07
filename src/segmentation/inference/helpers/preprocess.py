@@ -1,5 +1,5 @@
 import tensorflow as tf
-from src.segmentation.inference.helpers.landsat_bands import landsat_bands
+from landsat_bands import landsat_bands
 import numpy as np
 
 def get_common_bands(rasters, common_bands: list):
