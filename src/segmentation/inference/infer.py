@@ -2,8 +2,6 @@ import sys
 import os
 from pathlib import Path
 import argparse
-import tensorflow as tf
-from tensorflow import keras
 import pandas as pd
 import numpy as np
 from helpers import read
@@ -19,7 +17,7 @@ import torch
 
 # Processing arguments
 parser = argparse.ArgumentParser("glims_id_parsing")
-parser.add_argument("--glimsid", help="Enter GLIMS ID of glacier", type=str, default="G006628E45300N")
+parser.add_argument("--glimsid", help="Enter GLIMS ID of glacier", type=str, default="G007026E45991N")
 
 args = parser.parse_args()
 
@@ -274,6 +272,7 @@ with imageio.get_writer(os.path.join(gif_output_dir, f"{glims_id}.gif"), mode='I
                              # "surface_area_time_series")
 ts_output_dir = Path(__file__).parent.parent.parent/ "segmentation"/"gifs"
 total_areas = []
+plt.figure()
 for prediction in predictions:
     total_areas.append(np.sqrt(np.sum(prediction)))
 plt.plot(image_dates, total_areas)

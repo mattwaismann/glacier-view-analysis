@@ -1,6 +1,8 @@
-import tensorflow as tf
-from landsat_bands import landsat_bands
+
+from .landsat_bands import landsat_bands
 import numpy as np
+import torchvision
+import torch
 
 def get_common_bands(rasters, common_bands: list):
     rasters_temp = rasters.copy()
@@ -27,6 +29,8 @@ def normalize_rasters(rasters):
 def resize_rasters(rasters,dim):
     rasters_temp = rasters.copy()  
     for file_name in rasters_temp:
-        rasters_temp[file_name] = tf.image.resize(rasters_temp[file_name], dim).numpy()
+        resizer = torchvision.transforms.Resize(dim)
+        img = torch.from_numpy(rasters_temp[file_name]).permute((2, 0, 1))
+        rasters_temp[file_name] = resizer(img).permute((1,2,0)).numpy()
     return rasters_temp
  
