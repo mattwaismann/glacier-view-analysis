@@ -53,6 +53,8 @@ pip install -r requirements.txt
 
 ## Usage
 
+### Training
+
 To use the glacier image segmentation model, follow these steps:
 
 1. Download the training data and create a training_data folder with sub-folders named images and masks.
@@ -84,7 +86,15 @@ To use the glacier image segmentation model, follow these steps:
    
    ![Glacier Image Segmentation](out.png)
 
+### Inference
 
+To infer the time-series data of a glacier and visualise its area, follow these steps:
+
+1. Download the landsat data folder and paste it in the directory src/earth_engine/
+2.  Run the following code with the desired glimsid
+   ```bash
+   python infer.py --glimsid G007026E45991N
+   ```
 
 ## Model Architecture
 
