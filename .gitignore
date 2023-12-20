@@ -8,3 +8,17 @@ src/segmentation/saved_models/*
 src/segmentation/surface_area_time_series/*
 src/segmentation/tmp/*
 src/segmentation/training/data/*
+src/segmentation/inference/model
+src/segmentation/training/training_data/
+venv
+
+.idea/
+src/segmentation/training/src/experiments/
+src/segmentation/training/src/test_clean.csv
+src/segmentation/training/src/train_clean.csv
+
+
+src/earth_engine/src/data/
+src/segmentation/inference/helpers/__pycache__/
+
+
