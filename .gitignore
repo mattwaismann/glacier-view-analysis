@@ -1,3 +1,6 @@
+Screen Shot*
+*.csv
+.DS_Store
 .ipynb_checkpoints
 src/earth_engine/data/*
 src/glims/data/*
