@@ -13,8 +13,10 @@ src/segmentation/tmp/*
 src/segmentation/training/data/*
 src/segmentation/inference/model
 src/segmentation/training/training_data/
+src/segmentation/time_series/
 venv
-
+model.*
+model
 .idea/
 src/segmentation/training/src/experiments/
 src/segmentation/training/src/test_clean.csv
