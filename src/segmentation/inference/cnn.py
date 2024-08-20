@@ -44,7 +44,7 @@ class UNet(nn.Module):
         self.resnet = nn.Sequential(*modules)
 
         # Replacing encoder's first layer to allow 10 channels input intead of just 3
-        self.resnet[0] = nn.Conv2d(10, 64, kernel_size=7, stride=2, padding=3,bias=False)
+        self.resnet[0] = nn.Conv2d(2, 64, kernel_size=7, stride=2, padding=3,bias=False) #CHANGE HERE
 
         self.relu = nn.ReLU(inplace=True)
 
@@ -72,7 +72,7 @@ class UNet(nn.Module):
 
         self.deconv5 = nn.ConvTranspose2d(64, 32, kernel_size=3, stride=2, padding=1, dilation=1, output_padding=1)
         self.bn5 = nn.BatchNorm2d(32)
-        self.c5 = conv_block(42, 16)#.to(device)
+        self.c5 = conv_block(34, 16)#.to(device) #CHANGE HERE
         self.deconv6 = nn.ConvTranspose2d(32, 16, kernel_size=3, stride=2, padding=1, dilation=1, output_padding=1)
         self.bn6 = nn.BatchNorm2d(16)
         self.deconv7 = nn.ConvTranspose2d(16, 16, kernel_size=3, stride=2, padding=1, dilation=1, output_padding=1)

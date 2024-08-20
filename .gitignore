@@ -1,5 +1,6 @@
 Screen Shot*
 *.csv
+*.pyc
 .DS_Store
 .ipynb_checkpoints
 src/earth_engine/data/*
@@ -21,8 +22,10 @@ model
 src/segmentation/training/src/experiments/
 src/segmentation/training/src/test_clean.csv
 src/segmentation/training/src/train_clean.csv
-
-
+*.png
+*.csv
+*.gif
+*.jpg
 src/earth_engine/src/data/
 src/segmentation/inference/helpers/__pycache__/
 
