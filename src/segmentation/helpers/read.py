@@ -34,13 +34,21 @@ def reproject_raster(infp, outfp, dst_crs='EPSG:4326'):
                     resampling=Resampling.nearest,
                     dst_nodata = 0)
 
-def get_rasters(dir_path_rasters, file_name = None):
+def get_rasters(dir_path_rasters, file_name = None, filtered_file_path=None):
     rasters = {}
     image_file_names = next(os.walk(dir_path_rasters))[2]
     if file_name:
         image_file_names = [file_name]
     else:
         image_file_names = [file_name for file_name in image_file_names if file_name.endswith('.tif')]
+        
+    if filtered_file_path:
+        df = pd.read_csv(filtered_file_path)
+        filtered_images = df["file_name"].to_list()
+        image_file_names = [file_name for file_name in image_file_names if file_name in filtered_images]
+        
+        
+    
     for tif in image_file_names:
         with rasterio.open(os.path.join(dir_path_rasters,tif)) as src:
             raster = src.read()
