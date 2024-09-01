@@ -94,7 +94,7 @@ dem_dir = os.path.join(ee_data_dir, "dems")
 glacier_ids = os.listdir(os.path.join(BASE_DIR,  "src", "earth_engine","data","ee_landing_zone","full_time_series","landsat"))
 
 for num, glims_id in enumerate(glacier_ids[1:]):
-    # try:
+    try:
         glacier_dir = os.path.join(landsat_dir, glims_id)
         dem_path = os.path.join(dem_dir, f"{glims_id}_NASADEM.tif")
 
@@ -307,6 +307,6 @@ for num, glims_id in enumerate(glacier_ids[1:]):
                 writer.append_data(image)
 
         print(num)
-    # except:
-    #     print(f"Error {glims_id}")
+    except:
+        print(f"Error {glims_id}")
 
